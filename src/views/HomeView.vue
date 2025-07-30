@@ -3,10 +3,10 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <main>
-    <h1>Welcome to QuizApp</h1>
+  <main class="p-5 mb-4 bg-light rounded-3 shadow-lg">
+    <h1 class="mb-4">Welcome to QuizApp</h1>
 
-    <RouterLink to="/quizzes" class="btn">Go to quizzes</RouterLink>
+    <RouterLink to="/quizzes" class="btn btn-info">Go to quizzes</RouterLink>
   </main>
 </template>
 

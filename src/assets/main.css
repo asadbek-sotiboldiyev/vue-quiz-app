@@ -1,28 +1,98 @@
-@import './base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+/* https://bootstrapexamples.com/@ross-wille/interactive-quiz-application */
+body {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    /* display: flex; */
+    align-items: center;
+    color: black;
 }
 
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+.quiz-container {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    margin: auto;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.quiz-header {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-@media (min-width: 1024px) {
-  #app {
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.question {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+}
+
+.option {
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option:hover {
+    background-color: #e9ecef;
+}
+
+
+.selected {
+    background-color: #cfe2ff;
+    border-color: #0d6efd;
+}
+
+.current{
+    border-color: #0d6efd !important;
+}
+
+.option.correct {
+    background-color: #d4edda;
+    border-color: #28a745;
+}
+
+.option.incorrect {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+}
+
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.timer {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.progress {
+    height: 10px;
+    margin-bottom: 20px;
+}
+
+.results {
+    text-align: center;
+}
+
+.result-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.score {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
