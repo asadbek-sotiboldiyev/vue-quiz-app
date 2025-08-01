@@ -1,65 +1,28 @@
 <template>
   <div class="container">
-    <ResultView v-if="endSession"
-      :userAnswers="answers"
+    <ResultView v-if="sessionEnd"
+      :userAnswers="userAnswers"
       :correctAnswers="correctAnswers"
       class="quiz-container"
     />
-
-    <div v-else class="quiz-container" id="quiz">
-      <div class="progress">
-        <div class="progress-bar progress-bar-striped"
-          role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0"
-          :style="{width: progressNow() + '%'}"
-          :class="(progressNow() == 100 ? 'bg-success' : '')"
-          aria-valuemax="100"></div>
-      </div>
-
-      <div class="quiz-header" id="question-container">
-        <p class="question">{{ current + 1 }} | {{ getQuiz(current).question }}</p>
-      </div>
-
-      <div class="options" id="options">
-        <button v-for="answer in getQuiz(current).answers" :key="answer.value" class="option"
-          :class="(answer.selected ? 'selected' : '')"
-          :value=answer.value
-          @click="selectAnswer">{{ answer.value}} ) {{ answer.title }}
-        </button>
-      </div>
-
-      <div class="quiz-footer">
-        <button @click="prevQuiz" class="btn btn-primary" id="next-btn" :disabled="current <= 0">Prev</button>
-        <button v-if=" current+1 < quizCnt"
-          @click="nextQuiz"
-          class="btn btn-primary" id="next-btn">Next
-        </button>
-        <button v-else
-          @click="endQuiz"
-          class="btn btn-primary" id="next-btn">Submit
-        </button>
-      </div>
-
-
-      <hr>
-
-      <button v-for="i in quizzes.length" :key="i" @click="() => { current = i - 1 }"
-        :class="[(isSelected(getQuiz(i - 1)) ? 'selected' : ''), (current == i - 1 ? 'current' : '')]"
-        class="list-item">{{ i }}
-      </button>
-
-    </div>
+    <QuizFormView v-else
+      :quizzes="quizzes"
+      @sessionEnd="sessionEndHandler"
+      @userAnswers="userAnswersHandler"
+    />
   </div>
 </template>
 
 
 <script>
 import ResultView from './ResultView.vue';
+import QuizFormView from './QuizFormView.vue';
 
 export default {
-  components:{ ResultView },
+  components:{ ResultView, QuizFormView },
   data() {
     return {
-      endSession: false,
+      sessionEnd: false,
       quizCnt: 5,
       quizzes: [
         {
@@ -113,45 +76,16 @@ export default {
           ]
         },
       ],
-      answers: Array(5).fill(null),
+      userAnswers: null,
       correctAnswers: 'bdcdd',
-      current: 0,
     }
   },
   methods: {
-    getQuiz(id) {
-      return this.quizzes[id];
+    sessionEndHandler(x){
+      this.sessionEnd = true;
     },
-    selectAnswer(e) {
-      this.quizzes[this.current].answers.forEach(q => {
-        if (q.value == e.target.value) {
-          if (q.selected) this.answers[this.current] = null;
-          q.selected = !(q.selected)
-          if (q.selected) this.answers[this.current] = q.value;
-        }
-        else q.selected = false;
-      })
-    },
-    nextQuiz(e) {
-      if (this.current + 1 < this.quizzes.length) this.current++;
-    },
-    prevQuiz(e) {
-      if (this.current > 0) this.current--;
-    },
-    isSelected(q) {
-      let s = 0;
-      q.answers.forEach(i => { if (i.selected) s++ });
-      return s > 0;
-    },
-    progressNow(){
-      let cnt = 0;
-      this.answers.forEach(i => {if(i != null) cnt++})
-      let progress = (cnt / this.quizCnt) * 100;
-      return progress;
-    },
-    endQuiz(){
-      console.log(this.answers);
-      this.endSession = true;
+    userAnswersHandler(answers){
+      this.userAnswers = answers;
     }
   }
 }
