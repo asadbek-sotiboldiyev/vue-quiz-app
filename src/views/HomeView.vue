@@ -10,11 +10,4 @@ import { RouterLink, RouterView } from 'vue-router'
   </main>
 </template>
 
-<style scoped>
-
-.btn{
-  color: var(--green);
-  font-size: 22px;
-  cursor: pointer;
-}
-</style>
+<style scoped></style>

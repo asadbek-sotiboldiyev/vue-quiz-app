@@ -1,10 +1,6 @@
 <template>
   <div class="quiz-container" id="quiz">
-    <div class="progress">
-      <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0"
-        aria-valuemin="0" :style="{ width: progressNow() + '%' }" :class="(progressNow() == 100 ? 'bg-success' : '')"
-        aria-valuemax="100"></div>
-    </div>
+    <ProgresBar :progressNow="progressNow()"/>
 
     <div class="quiz-header" id="question-container">
       <p class="question">{{ current + 1 }} | {{ getQuiz(current).question }}</p>
@@ -16,20 +12,18 @@
       <PaginationButton :current="current" :quizCnt="quizCnt" @btn-clicked="paginationEventHandler"/>
     <hr>
 
-    <button v-for="i in quizzes.length" :key="i" @click="() => { current = i - 1 }"
-      :class="[(isSelected(getQuiz(i - 1)) ? 'selected' : ''), (current == i - 1 ? 'current' : '')]"
-      class="list-item">{{ i }}
-    </button>
-
+    <QuizList :quizCnt="quizCnt" :current="current" :userAnswers="answers"/>
   </div>
 </template>
 
 <script>
 import AnswerOption from '@/components/AnswerOption.vue';
 import PaginationButton from '@/components/PaginationButton.vue';
+import ProgresBar from '@/components/ProgresBar.vue';
+import QuizList from '@/components/QuizList.vue';
 
 export default {
-  components: { AnswerOption, PaginationButton },
+  components: { AnswerOption, PaginationButton, ProgresBar, QuizList },
   props: {
     quizzes: {
       type: Array,
@@ -77,11 +71,6 @@ export default {
     },
     preQuiz() {
       if (this.current > 0) this.current--;
-    },
-    isSelected(q) {
-      let s = 0;
-      q.answers.forEach(i => { if (i.selected) s++ });
-      return s > 0;
     },
     progressNow(){
       let cnt = 0;

@@ -91,17 +91,4 @@ export default {
 }
 </script>
 
-<style>
-.btn-ans,
-.list-item {
-  border: none;
-}
-
-.list-item {
-  border: 2px solid white;
-  border-radius: 2px;
-  margin: 2px;
-  padding: 2px 15px;
-  font-size: 20px;
-}
-</style>
+<style></style>

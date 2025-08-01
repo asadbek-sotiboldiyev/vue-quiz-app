@@ -38,14 +38,4 @@ export default {
 }
 </script>
 
-<style scoped>
-header,
-header a {
-  margin-top: 10px;
-  padding: 5px 20px;
-  border-radius: 7px;
-  width: 100%;
-  background-color: var(--green);
-  color: black;
-}
-</style>
+<style scoped></style>
