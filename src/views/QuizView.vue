@@ -1,6 +1,12 @@
 <template>
   <div class="container">
-    <div class="quiz-container" id="quiz">
+    <ResultView v-if="endSession"
+      :userAnswers="answers"
+      :correctAnswers="correctAnswers"
+      class="quiz-container"
+    />
+
+    <div v-else class="quiz-container" id="quiz">
       <div class="progress">
         <div class="progress-bar progress-bar-striped"
           role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0"
@@ -15,17 +21,22 @@
 
       <div class="options" id="options">
         <button v-for="answer in getQuiz(current).answers" :key="answer.value" class="option"
-          :class="(answer.selected ? 'selected' : '')" :value=answer.value @click="selectAnswer">{{ answer.title }}
+          :class="(answer.selected ? 'selected' : '')"
+          :value=answer.value
+          @click="selectAnswer">{{ answer.value}} ) {{ answer.title }}
         </button>
       </div>
 
       <div class="quiz-footer">
         <button @click="prevQuiz" class="btn btn-primary" id="next-btn" :disabled="current <= 0">Prev</button>
-        <button
+        <button v-if=" current+1 < quizCnt"
           @click="nextQuiz"
-          class="btn btn-primary" id="next-btn"
-          :disabled="current == quizCnt">
-          {{ (current+1 < quizCnt ? 'Next' : 'Submit') }} </button>
+          class="btn btn-primary" id="next-btn">Next
+        </button>
+        <button v-else
+          @click="endQuiz"
+          class="btn btn-primary" id="next-btn">Submit
+        </button>
       </div>
 
 
@@ -42,9 +53,13 @@
 
 
 <script>
+import ResultView from './ResultView.vue';
+
 export default {
+  components:{ ResultView },
   data() {
     return {
+      endSession: false,
       quizCnt: 5,
       quizzes: [
         {
@@ -99,6 +114,7 @@ export default {
         },
       ],
       answers: Array(5).fill(null),
+      correctAnswers: 'bdcdd',
       current: 0,
     }
   },
@@ -132,6 +148,10 @@ export default {
       this.answers.forEach(i => {if(i != null) cnt++})
       let progress = (cnt / this.quizCnt) * 100;
       return progress;
+    },
+    endQuiz(){
+      console.log(this.answers);
+      this.endSession = true;
     }
   }
 }
